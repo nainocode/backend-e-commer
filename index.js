@@ -20,13 +20,22 @@ const MONGODB_URI = process.env.MONGODB_URI;
 // ==================== Middleware ====================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors(
-  {
-    origin: process.env.FRONTEND_URL, // Replace with your client's origin
-    credentials: true
-  }
-));
+// ======================= CORS Configuration =======================
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL
+];
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 // File upload middleware
 app.use(fileUpload({
   useTempFiles: true,
