@@ -17,7 +17,7 @@ const adminCookieOptions = {
 export const adminRegister = async (req, res) => {
   try {
     const { name, email, password, adminSecret } = req.body;
-
+   
     // Verify admin secret
     if (adminSecret !== process.env.ADMIN_SECRET) {
       return res.status(403).json({ success: false, error: 'Invalid admin secret' });

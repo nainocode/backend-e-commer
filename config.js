@@ -14,3 +14,4 @@ const cookieOptions = {
 };
 
 export { JWT_SECRET, cookieOptions };
+

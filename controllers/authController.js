@@ -24,7 +24,7 @@ export const register = async (req, res) => {
     const user = await User.create({ name, email, password });
 
       const token = generateToken(user._id);
-      // send httpOnly cookie
+      // send httpOnly cookiena
       res.cookie('token', token, cookieOptions);
 
       res.status(201).json({
