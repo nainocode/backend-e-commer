@@ -64,9 +64,9 @@ const connectDB = async () => {
 connectDB();
 
 // ==================== Routes ====================
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the E-Commerce API' });
-});
+// app.get('/', (req, res) => {
+//   res.json({ message: 'Welcome to the E-Commerce API' });
+// });
 
 // Product Routes
 app.use('/api', productRoutes);
