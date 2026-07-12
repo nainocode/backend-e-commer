@@ -65,7 +65,71 @@ connectDB();
 
 // ==================== Routes ====================
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the E-Commerce API' });
+  // Check if request accepts HTML (browser) or prefers JSON (API client)
+  const acceptsHtml = req.accepts('html');
+  const acceptsJson = req.accepts('json');
+  
+  if (acceptsHtml && !acceptsJson) {
+    // Serve HTML page with Vercel Analytics for browser visitors
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>E-Commerce API</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+          }
+          h1 { color: #0070f3; }
+          .endpoint {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+          }
+          .status {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #0070f3;
+            color: white;
+            border-radius: 3px;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>🛍️ E-Commerce API</h1>
+        <p><span class="status">✓ Online</span></p>
+        <p>Welcome to the E-Commerce API. This is a RESTful API built with Express.js.</p>
+        
+        <h2>Available Endpoints:</h2>
+        <div class="endpoint">GET /api - Product endpoints</div>
+        <div class="endpoint">POST /api/auth - Authentication endpoints</div>
+        <div class="endpoint">GET /api/admin - Admin endpoints</div>
+        
+        <p style="margin-top: 40px; color: #666; font-size: 14px;">
+          For API documentation and usage, please refer to the project repository.
+        </p>
+        
+        <script type="module">
+          import { inject } from '@vercel/analytics';
+          inject();
+        </script>
+      </body>
+      </html>
+    `);
+  } else {
+    // Return JSON for API clients
+    res.json({ message: 'Welcome to the E-Commerce API' });
+  }
 });
 
 // Product Routes
